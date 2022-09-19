@@ -1,3 +1,4 @@
+import cors from "cors"
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
@@ -13,19 +14,7 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch(e => console.log('error de conexión', e))
 
 
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-  res.header('Access-Control-Expose-Headers', 'Content-Length');
-  res.header('Access-Control-Allow-Headers', 'Origin, Accept, Authorization, Content-Type, X-Requested-With, Range');
-
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(200);
-  } else {
-    return next();
-  }
-});
+app.use(cors());
 
 app.use(bodyParser.json());
 app.set('port', process.env.PORT || 3000)
